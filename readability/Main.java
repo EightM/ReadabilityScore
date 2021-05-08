@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class Main {
@@ -27,13 +28,18 @@ public class Main {
                 .flatMap(word -> Arrays.stream(word.split("")))
                 .collect(Collectors.toList());
 
-        double score = 4.71 * ((double) characters.size() / words.size()) + 0.5 * ((double) words.size() / sentences.size()) - 21.43;
+        double score = calculateScore(sentences, words, characters);
 
         System.out.println("Words: " + words.size());
         System.out.println("Sentences: " + sentences.size());
         System.out.println("Characters: " + characters.size());
         System.out.printf("The score is: %.2f%n", score);
         printUnderstoodAge((int) Math.ceil(score));
+    }
+
+    private static double calculateScore(List<String> sentences, List<String> words, List<String> characters) {
+        return 4.71 * ((double) characters.size() / words.size())
+                + 0.5 * ((double) words.size() / sentences.size()) - 21.43;
     }
 
     private static void printUnderstoodAge(int score) {
